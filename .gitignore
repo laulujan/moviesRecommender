@@ -1,0 +1,7 @@
+src/main/java/movieRecomender/*.txt
+src/main/java/movieRecomender/*.txt.gz
+datasetMovies.csv
+.idea
+.DS_Store
+*/.DS_Store
+target
