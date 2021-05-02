@@ -29,15 +29,19 @@ public class MovieRecommender {
     HashMap<String, Integer> products = new HashMap<>();
     HashMap<String, Integer> users = new HashMap<>();
 
+    FileWriter currentFileWriter;
+
     public MovieRecommender(String path) throws IOException {
+        this.inflate(path);
+    }
+
+    public void inflate (String path) throws IOException {
         InputStream gzipStream = new GZIPInputStream(new FileInputStream(path));
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(gzipStream));
 
-        FileWriter fileWriter = new FileWriter("datasetMovies.csv");
-        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+        BufferedWriter bufferedWriter = this.createFile("datasetMovies.csv");
 
         String currentLine;
-
         String productLabel = "product/productId: ";
         String userLabel = "review/userId: ";
         String reviewLabel = "review/score: ";
@@ -70,9 +74,14 @@ public class MovieRecommender {
 
         bufferedReader.close();
         bufferedWriter.close();
-        fileWriter.close();
+        this.currentFileWriter.close();
     }
+    public BufferedWriter createFile (String filePath) throws IOException {
+        this.currentFileWriter = new FileWriter(filePath);
+        BufferedWriter bufferedWriter = new BufferedWriter(this.currentFileWriter);
 
+        return bufferedWriter;
+    }
 
 
     public int getTotalReviews() {
